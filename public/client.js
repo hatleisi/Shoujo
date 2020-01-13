@@ -15,9 +15,9 @@ function search() {
   getJSONData(searchTerm);
 }
 
-      
-      
-//getJSONData("horse");
+
+
+getJSONData("fate");
 //document.getElementById("button").addEventListener('click',search);
 
 function getJSONData(searchTerm) {
@@ -70,3 +70,33 @@ function getImageData(data) {
 function redo() {
   location.reload(true);
 }
+
+function getDataFromCache(coords){
+if (!('caches' in window)) {
+  return null;
+}
+const url = `${window.location.origin}/forecast/${coords}`;
+return caches.match(url)
+    .then((response) => {
+      if (response) {
+        return response.json();
+      }
+      return null;
+    })
+    .catch((err) => {
+      console.error('Error getting data from cache', err);
+      return null;
+    });
+}
+
+// check if app has connection to the internet
+function check() {
+  isOnline = navigator.onLine;
+  
+  // show JSON if online, message if offline
+  if(isOnline == true){
+      getJSON();
+  } else {
+    document.getElementById("edge").innerHTML = "You are offline";
+  }// else
+} // check
